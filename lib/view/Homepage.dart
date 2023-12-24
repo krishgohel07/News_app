@@ -16,7 +16,7 @@ class _Home_pageState extends State<Home_page> {
   Widget build(BuildContext context) {
     var newsprovider = Provider.of<News_Provider>(context);
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
             // bottomNavigationBar: BottomNavigationBar(items: [
             //   BottomNavigationBarItem(icon: Icon(Icons.home), label: 'General'),
@@ -46,16 +46,14 @@ class _Home_pageState extends State<Home_page> {
                     icon: Icon(Icons.roundabout_right_outlined),
                     text: 'Country',
                   ),
-                  Tab(
-                    icon: Icon(Icons.search),
-                    text: 'Category',
-                  ),
                 ],
               ),
               title: Text("News App"),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('likedpage');
+                  },
                   icon: Icon(Icons.favorite_outline_rounded),
                   color: Colors.red,
                 )
@@ -88,45 +86,83 @@ class _Home_pageState extends State<Home_page> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  TextFormField(
-                    onChanged: (val) {
-                      newsprovider.changecity(val);
-                    },
-                  ),
-                  Container(
-                    height: 50,
-                    width: double.infinity,
-                    margin: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.blueAccent),
-                    child: Center(
-                      child: InkWell(
-                        onTap: () {
-                          newsprovider.fetchdata();
-                        },
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
-                    itemCount: newsprovider.countrylist.length,
-                    itemBuilder: (context, index) => Container(
-                      height: 150,
-                      width: double.infinity,
-                      child: Column(
+              ListView.builder(
+                itemCount: newsprovider.countrylist.length,
+                itemBuilder: (context, index) => Container(
+                  height: 150,
+                  margin: EdgeInsets.all(15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.black12),
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          Image(
-                              image: NetworkImage(
-                                  "${newsprovider.countrylist[index]['urlToImage']}"))
+                          Container(
+                            margin: EdgeInsets.only(top: 15),
+                            height: 80,
+                            width: 250,
+                            child: Column(
+                              children: [
+                                Text(
+                                    "${newsprovider.countrylist[index]['title']}")
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 15, top: 15),
+                            height: 70,
+                            width: 80,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        "${newsprovider.countrylist[index]['urlToImage']}"),
+                                    fit: BoxFit.cover)),
+                          )
                         ],
                       ),
-                    ),
-                  )
-                ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: 12),
+                            height: 30,
+                            width: 250,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.purple),
+                            child: Center(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      'countrydetail',
+                                      arguments: index);
+                                },
+                                child: Text("SEE MORE ABOUT THIS >"),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                newsprovider.addnews(index);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(
+                                      "Successfully Added Toii Liked List"),
+                                  backgroundColor: Colors.green,
+                                ));
+                              },
+                              icon: Icon(
+                                Icons.favorite_outline_rounded,
+                                color: Colors.red,
+                              ))
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ),
-              Text("Hii"),
             ])));
   }
 }

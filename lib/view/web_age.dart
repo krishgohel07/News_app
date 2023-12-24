@@ -20,12 +20,12 @@ class _webPageState extends State<webPage> {
     var newsprovider = Provider.of<News_Provider>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text("${newsprovider.allsourcedata[index].id}"),
+          title: Text("${newsprovider.countrylist[index]['source']['name']}"),
         ),
         body: InAppWebView(
           pullToRefreshController: webprovider.pullToRefreshController,
           initialUrlRequest: URLRequest(
-              url: Uri.parse("${newsprovider.allsourcedata[index].url}")),
+              url: Uri.parse("${newsprovider.countrylist[index]['url']}")),
           onLoadStart: (controller, uri) {},
           onLoadStop: (controller, uri) {},
         ),
@@ -47,7 +47,7 @@ class _webPageState extends State<webPage> {
             FloatingActionButton(
               onPressed: () {
                 webproviderfalse
-                    .home("${newsprovider.allsourcedata[index].url}");
+                    .home("${newsprovider.countrylist[index]['url']}");
               },
               child: Icon(Icons.home),
             )

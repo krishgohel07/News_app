@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:practical_test/provider/news_provider.dart';
 import 'package:practical_test/provider/web_provider.dart';
 import 'package:practical_test/view/Homepage.dart';
+import 'package:practical_test/view/Liked_page.dart';
+import 'package:practical_test/view/country_detail.dart';
 import 'package:practical_test/view/detail_page.dart';
 import 'package:practical_test/view/splash_screen.dart';
 import 'package:practical_test/view/web_age.dart';
@@ -37,8 +39,10 @@ class _MyAppState extends State<MyApp> {
         routes: {
           '/': (context) => Splash_screen(),
           'homepage': (context) => Home_page(),
-          'detail':(context)=>Details_page(),
-          'webpage':(context)=>webPage()
+          'detail': (context) => Details_page(),
+          'webpage': (context) => webPage(),
+          'countrydetail': (context) => Country_detail(),
+          'likedpage': (context) => Favorite_list()
         },
       ),
     );

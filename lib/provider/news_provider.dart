@@ -8,15 +8,15 @@ import 'package:practical_test/model/source_model.dart';
 class News_Provider extends ChangeNotifier {
   List<SourceModel> allsourcedata = [];
   List<Countrymodel> allcountrydata = [];
-  List countrylist=[];
-  String country = "us";
+  List countrylist = [];
+  List favorite = [];
 
   Future<void> fetchdata() async {
     String apikey = "5ef57aeb289c4d418c21392792a98883";
     String api = "https://newsapi.org/v2/top-headlines/sources?apiKey=$apikey";
     String api2 = "https://newsapi.org/v2/everything?q=bitcoin&apiKey=$apikey";
     String api3 =
-        "https://newsapi.org/v2/top-headlines?country=$country&apiKey=$apikey";
+        "https://newsapi.org/v2/top-headlines?country=us&apiKey=$apikey";
     http.Response response = await http.get(Uri.parse(api));
     http.Response response2 = await http.get(Uri.parse(api2));
     http.Response response3 = await http.get(Uri.parse(api3));
@@ -41,20 +41,28 @@ class News_Provider extends ChangeNotifier {
               language: e['language'],
               url: e['url']))
           .toList();
-     // for(int i=0;i<countrylist.length;i++){
-     //   allcountrydata = countrylist
-     //       .map((e) => Countrymodel(
-     //       description: e[0]['description'],
-     //       url: e[0]['url'],
-     //       title: e[0]['title'],
-     //       author: e[0]['author'],
-     //       content: e[0]['content'],
-     //       publishdAt: e[0]['publishdAt'],
-     //       urlToImage: e[0]['urlToImage']))
-     //       .toList();
-     // }
+      // for(int i=0;i<countrylist.length;i++){
+      //   allcountrydata = countrylist
+      //       .map((e) => Countrymodel(
+      //       description: e[0]['description'],
+      //       url: e[0]['url'],
+      //       title: e[0]['title'],
+      //       author: e[0]['author'],
+      //       content: e[0]['content'],
+      //       publishdAt: e[0]['publishdAt'],
+      //       urlToImage: e[0]['urlToImage']))
+      //       .toList();
+      // }
     }
   }
 
-  void changecity(String val) {}
+  void addnews(int index) {
+    favorite.add(countrylist[index]);
+    notifyListeners();
+  }
+
+  void removenews(int index) {
+    favorite.remove(favorite[index]);
+    notifyListeners();
+  }
 }
